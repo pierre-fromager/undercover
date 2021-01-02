@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/7.3/phpunit.xsd" 
+    backupGlobals="false" 
+    backupStaticAttributes="false" 
+    bootstrap="vendor/autoload.php" 
+    stopOnFailure="true" 
+    colors="true" 
+    verbose="true" 
+    beStrictAboutCoversAnnotation="false" 
+    beStrictAboutOutputDuringTests="true" 
+    beStrictAboutTestsThatDoNotTestAnything="true" 
+    beStrictAboutTodoAnnotatedTests="true" 
+    beStrictAboutChangesToGlobalState="true"
+    cacheResult="true"
+    cacheResultFile="build/.pures.cache"
+    >
+    <php>
+        <ini name="error_reporting" value="-1"/>
+        <server name="APP_ENV" value="test" force="true"/>
+        <server name="SHELL_VERBOSITY" value="-1"/>
+        <ini name="memory_limit" value="32M" />
+    </php>
+    <testsuites>
+        <testsuite name="all">
+            <directory suffix="Test.php">tests</directory>
+        </testsuite>
+    </testsuites>
+    <logging>
+        <log type="coverage-html" showUncoveredFiles="true" target="coverage/" lowUpperBound="35" highLowerBound="70"/>
+        <log type="coverage-clover" target="build/logs/coverage.clover"/>
+        <log type="coverage-xml" target="build/logs/coverage/xml"/>
+        <log type="junit" target="build/logs/junit.xml"/>
+    </logging>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">src/</directory>
+            <exclude>
+                <directory suffix=".php">src/Interfaces/</directory>
+                <directory suffix=".php">vendor/</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>

@@ -1,0 +1,83 @@
+{
+    "name": "pier-infor/covidata",
+    "type": "project",
+    "description": "Undercover",
+    "keywords": [
+        "Phpunit",
+        "Coverage",
+        "Clover",
+        "Checker"
+    ],
+    "homepage": "https://github.com/pierre-fromager/undercover",
+    "license": "LGPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Pierre Fromager",
+            "email": "info@pier-infor.fr",
+            "homepage": "https://github.com/pierre-fromager"
+        }
+    ],
+    "support": {
+        "email": "info@pier-infor.fr",
+        "issues": "https://github.com/pierre-fromager/undercover/issues"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=7.3.10"        
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.0",
+        "squizlabs/php_codesniffer": "*",
+        "friendsofphp/php-cs-fixer": "^2.17",
+        "phploc/phploc": "^5.0",
+        "phpmd/phpmd": "@stable",
+        "phan/phan": "3.x",
+        "theseer/phpdox": "^0.12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "PierInfor\\Undercover\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "preferred-install": "dist",
+        "disable-tls": false,
+        "secure-http": true,
+        "process-timeout": 0
+    },
+    "scripts": {
+        "up": [
+            "/opt/php-7.3.10/bin/php /usr/bin/composer update --with-all-dependencies"
+        ],
+        "checklint": [
+            "/opt/php-7.3.10/bin/php ./vendor/bin/phpcs -e --standard=PSR12 --warning-severity=10 --extensions=php src/* tests/*"
+        ],
+        "lint": [
+            "/opt/php-7.3.10/bin/php ./vendor/bin/phpcbf --standard=PSR12 --warning-severity=10 --extensions=php src/* tests/*"
+        ],
+        "cq": [
+            "/opt/php-7.3.10/bin/php ./vendor/bin/phploc --ansi src/* --log-xml ./build/logs/phploc.xml"
+        ],
+        "md": [
+            "/opt/php-7.3.10/bin/php ./vendor/bin/phpmd ./src text codesize,unusedcode,naming"
+        ],
+        "test": [
+            "/opt/php-7.3.10/bin/phpdbg -qrr ./vendor/bin/phpunit"
+        ],
+        "doc": [
+            "/opt/php-7.3.10/bin/php ./vendor/bin/phpdox"
+        ],
+        "phan": [
+            "/opt/php-7.3.10/bin/php ./vendor/bin/phan"
+        ],
+        "undercov": [
+            "/opt/php-7.3.10/bin/php fixtures/php/covchk.php build/logs/clover.xml 85"
+        ]
+    }
+}
