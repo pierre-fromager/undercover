@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase as PFT;
 use PierInfor\Undercover\Args;
 
 /**
- * @covers \PierInfor\Undercover\ArgsTest::<public>
+ * @covers \PierInfor\Undercover\Args::<public>
  */
 class ArgsTest extends PFT
 {

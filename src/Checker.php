@@ -34,7 +34,7 @@ class Checker implements IChecker
     public function run(): Checker
     {
         if (!empty($this->content)) {
-            $this->parse()->check();            
+            $this->parse()->check();
         }
         return $this;
     }
@@ -79,7 +79,7 @@ class Checker implements IChecker
 
     /**
      * checker
-     * 
+     *
      * @todo implemention
      * @return Checker
      */

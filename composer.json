@@ -1,6 +1,6 @@
 {
-    "name": "pier-infor/covidata",
-    "type": "project",
+    "name": "pier-infor/undercover",
+    "type": "library",
     "description": "Undercover",
     "keywords": [
         "Phpunit",
@@ -75,9 +75,6 @@
         ],
         "phan": [
             "/opt/php-7.3.10/bin/php ./vendor/bin/phan"
-        ],
-        "undercov": [
-            "/opt/php-7.3.10/bin/php fixtures/php/covchk.php build/logs/clover.xml 85"
         ]
     }
 }
