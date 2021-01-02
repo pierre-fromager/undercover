@@ -42,6 +42,21 @@ class CheckerTest extends PFT
     }
 
     /**
+     * get any method from a class to be invoked whatever the scope
+     *
+     * @param String $name
+     * @return void
+     */
+    protected static function getMethod(string $name)
+    {
+        $class = new \ReflectionClass(Checker::class);
+        $method = $class->getMethod($name);
+        $method->setAccessible(true);
+        unset($class);
+        return $method;
+    }
+
+    /**
      * testInstance
      * @covers PierInfor\Undercover\Checker::__construct
      */
