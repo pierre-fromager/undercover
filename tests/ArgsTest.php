@@ -138,6 +138,7 @@ class ArgsTest extends PFT
         );
         $this->assertTrue(is_string($fn1));
         $this->assertNotEmpty($fn1);
+        $this->assertEquals(__FILE__, $fn1);
     }
 
     /**
