@@ -70,10 +70,15 @@ class CheckerTest extends PFT
     /**
      * testRun
      * @covers PierInfor\Undercover\Checker::run
+     * @covers PierInfor\Undercover\Checker::check
+     * @covers PierInfor\Undercover\Checker::setResults
      */
     public function testRun()
     {
-        $this->assertTrue($this->instance->run() instanceof Checker);
+        $this->setOutputCallback(function () {
+        });
+        $stub = $this->getMockWithContent();
+        $this->assertTrue($stub->run() instanceof Checker);
     }
 
     /**
@@ -90,27 +95,80 @@ class CheckerTest extends PFT
     }
 
     /**
-     * testParse
-     * @covers PierInfor\Undercover\Checker::parse
-     * @covers PierInfor\Undercover\Checker::init
+     * return a real coverage clover file content
+     *
+     * @return string
      */
-    public function testParse()
+    protected function getXmlFixturesContent(): string
     {
-        /*
-        self::getMethod('init')->invokeArgs(
-            $this->instance,
-            []
+        return \file_get_contents(
+            __DIR__ . '/fixtures/coverage.clover'
         );
-        $par = self::getMethod('parse')->invokeArgs(
-            $this->instance,
-            []
-        );
-        $this->assertTrue($par instanceof Checker);*/
     }
 
     /**
-     * returns  an xml element 
-     * with attributes populated 
+     * return a Check mock with getContent overided
+     *
+     * @return mixed
+     */
+    protected function getMockWithContent()
+    {
+        $stub = $this->getMockBuilder(Checker::class)
+            ->disableArgumentCloning()
+            ->disallowMockingUnknownTypes()
+            ->setMethods(['getContent'])
+            ->getMock();
+        $stub->method('getContent')->willReturn(
+            $this->getXmlFixturesContent()
+        );
+        return $stub;
+    }
+
+    /**
+     * testParse
+     * @covers PierInfor\Undercover\Checker::parse
+     * @covers PierInfor\Undercover\Checker::getResults
+     */
+    public function testParse()
+    {
+        $stub = $this->getMockWithContent();
+        $par = self::getMethod('parse')->invokeArgs(
+            $stub,
+            []
+        );
+        $this->assertTrue($par instanceof Checker);
+        $ger = self::getMethod('getResults')->invokeArgs(
+            $stub,
+            []
+        );
+        $this->assertTrue(is_array($ger));
+        $this->assertTrue(isset($ger[Args::_LINES]));
+        $this->assertGreaterThan(50, $ger[Args::_LINES]);
+        $this->assertTrue(isset($ger[Args::_METHODS]));
+        $this->assertGreaterThan(50, $ger[Args::_METHODS]);
+        $this->assertTrue(isset($ger[Args::_STATEMENTS]));
+        $this->assertGreaterThan(50, $ger[Args::_STATEMENTS]);
+        $this->assertTrue(isset($ger[Args::_CLASSES]));
+        $this->assertGreaterThan(40, $ger[Args::_CLASSES]);
+    }
+
+    /**
+     * testGetContent
+     * @covers PierInfor\Undercover\Checker::getContent
+     */
+    public function testGetContent()
+    {
+        $gc = self::getMethod('getContent')->invokeArgs(
+            $this->instance,
+            []
+        );
+        $this->assertTrue(is_string($gc));
+        $this->assertEmpty($gc);
+    }
+
+    /**
+     * returns  an xml element
+     * with attributes populated
      * from the given array
      *
      * @param array $attributes
@@ -141,7 +199,7 @@ class CheckerTest extends PFT
         );
         $this->assertTrue(is_float($ger));
         $this->assertEquals(100, $ger);
-    }    
+    }
 
     /**
      * testGetMethodsRatio

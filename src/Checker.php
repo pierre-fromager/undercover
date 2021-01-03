@@ -33,8 +33,8 @@ class Checker implements IChecker
      */
     public function run(): Checker
     {
-        if (!empty($this->content)) {
-            $this->parse()->check();
+        if (!empty($this->getContent())) {
+            $this->parse()->check()->shutdown();
         }
         return $this;
     }
@@ -61,7 +61,7 @@ class Checker implements IChecker
      */
     protected function parse(): Checker
     {
-        $xml = new \SimpleXMLElement($this->content);
+        $xml = new \SimpleXMLElement($this->getContent());
         $metrics = $xml->project->metrics;
         $classes = $xml->xpath(self::XPATH_SEARCH);
         $coveredClasses = 0;
@@ -78,6 +78,26 @@ class Checker implements IChecker
     }
 
     /**
+     * returns result metrics coverage ratios as array
+     *
+     * @return string
+     */
+    protected function getResults(): array
+    {
+        return $this->results;
+    }
+
+    /**
+     * returns coverage file content
+     *
+     * @return string
+     */
+    protected function getContent(): string
+    {
+        return $this->content;
+    }
+
+    /**
      * checker
      *
      * @todo implemention
@@ -85,12 +105,44 @@ class Checker implements IChecker
      */
     protected function check(): Checker
     {
+        echo PHP_EOL . self::STARS . self::TITLE;
         foreach ($this->results as $k => $v) {
-            var_dump(
-                $k . '->' . $this->thresholds[$k] . '->' . $v
-            );
+            $valid = $v >= $this->thresholds[$k];
+            echo PHP_EOL . $this->getMsgLine($k, $v, $valid);
         }
+        echo PHP_EOL . self::STARS;
         return $this;
+    }
+
+    /**
+     * exit with non zero exit code if error
+     *
+     * @return void
+     */
+    protected function shutdown(): void
+    {
+        if ($this->error) {
+            exit(1);
+        }
+    }
+
+    /**
+     * return formated msg line
+     *
+     * @param string $k
+     * @param float $v
+     * @return string
+     */
+    protected function getMsgLine(string $k, float $v, bool $valid): string
+    {
+        return sprintf(
+            self::MSG_FORMAT,
+            ucfirst($k),
+            $v,
+            'limit',
+            $this->thresholds[$k],
+            $valid ? 'OK' : 'KO'
+        );
     }
 
     /**
