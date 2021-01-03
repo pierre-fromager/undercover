@@ -1,6 +1,6 @@
 <?php
 
-use Phan\Issue;
+use Phan\Issue as PhanIssue;
 
 /**
  * This configuration will be read and overlaid on top of the
@@ -22,7 +22,7 @@ return [
     'quick_mode' => true,
     // Only emit critical issues to start with
     // (0 is low severity, 5 is normal severity, 10 is critical)
-    'minimum_severity' => Issue::SEVERITY_CRITICAL,
+    'minimum_severity' => PhanIssue::SEVERITY_CRITICAL,
     // Add any issue types (such as `'PhanUndeclaredMethod'`)
     // to this list to inhibit them from being reported.
     'suppress_issue_types' => [
