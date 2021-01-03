@@ -1,0 +1,41 @@
+sudo: false
+
+language: php
+
+os:
+  - linux
+
+services:
+  - redis
+  - mysql
+  - postgresql
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+    - vendor
+
+env:
+  matrix:
+    - DRIVER="phpdbg" DEPENDENCIES="high"
+
+  global:
+    - DEFAULT_COMPOSER_FLAGS="--no-interaction --no-ansi --no-progress --no-suggest"
+
+matrix:
+  include:
+    - php: 7.3
+
+before_install:
+  - phpenv config-rm xdebug.ini
+  - echo "extension = redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+
+install:
+  - travis_retry composer install --no-interaction
+
+script:
+  - phpdbg -qrr vendor/bin/phpunit
+
+after_success:
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover build/logs/coverage.clover
