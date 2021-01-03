@@ -32,7 +32,7 @@
         "friendsofphp/php-cs-fixer": "^2.17",
         "phploc/phploc": "^5.0",
         "phpmd/phpmd": "@stable",
-        "phan/phan": "3.x",
+        "phan/phan": "4.x",
         "theseer/phpdox": "^0.12.0"
     },
     "autoload": {
@@ -53,25 +53,25 @@
     },
     "scripts": {
         "up": [
-            "/opt/php-7.3.10/bin/php /usr/bin/composer update --with-all-dependencies"
+            "php /usr/bin/composer update --with-all-dependencies"
         ],
         "lint": [
-            "/opt/php-7.3.10/bin/php ./vendor/bin/phpcbf --standard=PSR12 --warning-severity=10 --extensions=php src/* tests/*"
+            "phpcbf --standard=PSR12 --warning-severity=10 --extensions=php src/* tests/*"
         ],
         "cq": [
-            "/opt/php-7.3.10/bin/php ./vendor/bin/phploc --ansi src/* --log-xml ./build/logs/phploc.xml"
+            "phploc --ansi src/* --log-xml ./build/logs/phploc.xml"
         ],
         "md": [
-            "/opt/php-7.3.10/bin/php ./vendor/bin/phpmd ./src text codesize,unusedcode,naming"
+            "phpmd ./src text codesize,unusedcode,naming"
         ],
         "test": [
-            "/opt/php-7.3.10/bin/phpdbg -qrr ./vendor/bin/phpunit"
+            "phpdbg -qrr ./vendor/bin/phpunit"
         ],
         "doc": [
-            "/opt/php-7.3.10/bin/php ./vendor/bin/phpdox"
+            "php ./vendor/bin/phpdox"
         ],
         "phan": [
-            "/opt/php-7.3.10/bin/php ./vendor/bin/phan"
+            "php ./vendor/bin/phan"
         ]
     }
 }
