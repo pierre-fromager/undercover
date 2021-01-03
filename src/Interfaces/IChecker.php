@@ -9,7 +9,9 @@ use PierInfor\Undercover\Checker;
 interface IChecker
 {
     const STARS = '*** ';
-    const TITLE = 'Undercover coverage checker';
+    const TITLE = PHP_EOL . self::STARS . 'Undercover coverage checker';
+    const _KO = 'KO';
+    const _OK = 'OK';
     const XPATH_SEARCH = '//class';
     const _ELEMENTS = 'elements';
     const COVERED_ELEMENTS = 'coveredelements';

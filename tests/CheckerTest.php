@@ -184,6 +184,21 @@ class CheckerTest extends PFT
     }
 
     /**
+     * testGetMsgLine
+     * @covers PierInfor\Undercover\Checker::getMsgLine
+     */
+    public function testGetMsgLine()
+    {
+        $expected = '*   Lines        10.00% limit 50.00% OK';
+        $gml = self::getMethod('getMsgLine')->invokeArgs(
+            $this->instance,
+            [Args::_LINES, (float) 10, true]
+        );
+        $this->assertTrue(is_string($gml));
+        $this->assertEquals($expected, $gml);
+    }
+
+    /**
      * testGetElementsRatio
      * @covers PierInfor\Undercover\Checker::getElementsRatio
      */
@@ -292,5 +307,18 @@ class CheckerTest extends PFT
             []
         );
         $this->assertTrue(is_bool($ex0));
+    }
+
+    /**
+     * testShutdown
+     * @covers PierInfor\Undercover\Checker::shutdown
+     */
+    public function testShutdown()
+    {
+        $shu = self::getMethod('shutdown')->invokeArgs(
+            $this->instance,
+            []
+        );
+        $this->assertTrue($shu instanceof Checker);
     }
 }

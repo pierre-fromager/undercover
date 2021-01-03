@@ -105,12 +105,17 @@ class Checker implements IChecker
      */
     protected function check(): Checker
     {
-        echo PHP_EOL . self::STARS . self::TITLE;
+        echo self::TITLE;
+        $errCount = 0;
         foreach ($this->results as $k => $v) {
             $valid = $v >= $this->thresholds[$k];
+            if (!$valid) {
+                ++$errCount;
+            }
             echo PHP_EOL . $this->getMsgLine($k, $v, $valid);
         }
         echo PHP_EOL . self::STARS;
+        $this->error = ($errCount > 0);
         return $this;
     }
 
@@ -119,11 +124,12 @@ class Checker implements IChecker
      *
      * @return void
      */
-    protected function shutdown(): void
+    protected function shutdown(): Checker
     {
         if ($this->error) {
             exit(1);
         }
+        return $this;
     }
 
     /**
@@ -141,7 +147,7 @@ class Checker implements IChecker
             $v,
             'limit',
             $this->thresholds[$k],
-            $valid ? 'OK' : 'KO'
+            $valid ? self::_OK : self::_KO
         );
     }
 
