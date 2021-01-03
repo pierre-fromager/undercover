@@ -69,17 +69,20 @@ class Args implements IArgs
     /**
      * set options
      *
+     * @param array $opts
      * @return Args
      */
-    protected function setOptions(): Args
+    protected function setOptions(array $opts = []): Args
     {
-        $this->_options = getopt(self::SOPTS, [
-            self::_FILE . self::_DESC,
-            self::_LINES . self::_DESC,
-            self::_METHODS . self::_DESC,
-            self::_STATEMENTS . self::_DESC,
-            self::_CLASSES . self::_DESC,
-        ]);
+        $this->_options = (empty($opts))
+            ? getopt(self::SOPTS, [
+                self::_FILE . self::_DESC,
+                self::_LINES . self::_DESC,
+                self::_METHODS . self::_DESC,
+                self::_STATEMENTS . self::_DESC,
+                self::_CLASSES . self::_DESC,
+            ])
+            : $opts;
         return $this;
     }
 
