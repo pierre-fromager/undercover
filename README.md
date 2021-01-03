@@ -1,2 +1,10 @@
-# undercover
+# :elephant: undercover
+
+[![TravsisBadgeBuild](https://travis-ci.com/pierre-fromager/undercover.svg?branch=master)](https://travis-ci.com/pierre-fromager/undercover)
+[![Coverage](https://scrutinizer-ci.com/g/pierre-fromager/undercover/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/pierre-fromager/undercover/)
+[![ScrutinizerScore](https://scrutinizer-ci.com/g/pierre-fromager/undercover/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/pierre-fromager/undercover/)
+[![Latest Stable Version](https://poser.pugx.org/pier-infor/undercover/v/stable)](https://packagist.org/packages/pier-infor/undercover)
+[![Total Downloads](https://poser.pugx.org/pier-infor/undercover/downloads)](https://packagist.org/packages/pier-infor/undercover)
+[![Latest Unstable Version](https://poser.pugx.org/pier-infor/undercover/v/unstable)](https://packagist.org/packages/pier-infor/undercover)
+
 Undercover is a php clover coverage checker

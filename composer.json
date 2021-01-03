@@ -55,9 +55,6 @@
         "up": [
             "/opt/php-7.3.10/bin/php /usr/bin/composer update --with-all-dependencies"
         ],
-        "checklint": [
-            "/opt/php-7.3.10/bin/php ./vendor/bin/phpcs -e --standard=PSR12 --warning-severity=10 --extensions=php src/* tests/*"
-        ],
         "lint": [
             "/opt/php-7.3.10/bin/php ./vendor/bin/phpcbf --standard=PSR12 --warning-severity=10 --extensions=php src/* tests/*"
         ],
