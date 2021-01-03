@@ -4,6 +4,13 @@ declare(strict_types=1);
 
 namespace PierInfor\Undercover\Interfaces;
 
+/**
+ * IArgs is interface for Args class
+ *
+ * @author Pierre Fromager <info@pier_infor.fr>
+ * @version 1.0
+ * @package PierInfor\Undercover
+ */
 interface IArgs
 {
     const DEFAULT_FILENAME = 'build/logs/clover.xml';

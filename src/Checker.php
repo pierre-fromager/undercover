@@ -7,6 +7,13 @@ namespace PierInfor\Undercover;
 use PierInfor\Undercover\Interfaces\IChecker;
 use PierInfor\Undercover\Args;
 
+/**
+ * Checker is a coverage cover format file checker
+ *
+ * @author Pierre Fromager <info@pier_infor.fr>
+ * @version 1.0
+ * @package PierInfor\Undercover
+ */
 class Checker implements IChecker
 {
 
@@ -55,7 +62,7 @@ class Checker implements IChecker
     }
 
     /**
-     * parser
+     * parse xml clover file and set coverage results
      *
      * @return Checker
      */
@@ -98,9 +105,8 @@ class Checker implements IChecker
     }
 
     /**
-     * checker
+     * display msg and set error if under coverage
      *
-     * @todo implemention
      * @return Checker
      */
     protected function check(): Checker
@@ -257,7 +263,7 @@ class Checker implements IChecker
     }
 
     /**
-     * returns true if ile exists
+     * returns true if file exists
      *
      * @return boolean
      */

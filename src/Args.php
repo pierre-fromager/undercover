@@ -7,7 +7,11 @@ namespace PierInfor\Undercover;
 use PierInfor\Undercover\Interfaces\IArgs;
 
 /**
- * populate values from args command line
+ * Args is a command line argument checker
+ *
+ * @author Pierre Fromager <info@pier_infor.fr>
+ * @package PierInfor\Undercover
+ * @version 1.0
  */
 class Args implements IArgs
 {

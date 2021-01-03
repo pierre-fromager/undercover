@@ -6,6 +6,13 @@ namespace PierInfor\Undercover\Interfaces;
 
 use PierInfor\Undercover\Checker;
 
+/**
+ * IChecker is interface for Checker class
+ *
+ * @author Pierre Fromager <info@pier_infor.fr>
+ * @version 1.0
+ * @package PierInfor\Undercover
+ */
 interface IChecker
 {
     const STARS = '*** ';
