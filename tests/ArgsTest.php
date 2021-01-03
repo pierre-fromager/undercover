@@ -106,4 +106,60 @@ class ArgsTest extends PFT
         );
         $this->assertTrue($gt instanceof Args);
     }
+
+    /**
+     * testGetThresholdByKeys
+     * @covers PierInfor\Undercover\Args::getThresholdByKeys
+     */
+    public function testGetThresholdByKeys()
+    {
+        $gdt = self::getMethod('getThresholdByKeys')->invokeArgs(
+            $this->instance,
+            ['k1', 'k2']
+        );
+        $this->assertTrue(\is_float($gdt));
+        $this->assertEquals(Args::DEFAULT_THRESHOLD, $gdt);
+    }
+
+    /**
+     * testHasOption
+     * @covers PierInfor\Undercover\Args::hasOption
+     */
+    public function testHasOption()
+    {
+        $gdt = self::getMethod('hasOption')->invokeArgs(
+            $this->instance,
+            ['key']
+        );
+        $this->assertTrue(\is_bool($gdt));
+        $this->assertFalse($gdt);
+    }
+
+    /**
+     * testFloatOption
+     * @covers PierInfor\Undercover\Args::floatOption
+     */
+    public function testFloatOption()
+    {
+        $gdt = self::getMethod('floatOption')->invokeArgs(
+            $this->instance,
+            ['key']
+        );
+        $this->assertTrue(\is_float($gdt));
+        $this->assertEquals(0, $gdt);
+    }
+
+    /**
+     * testGetDefaultThreshold
+     * @covers PierInfor\Undercover\Args::getDefaultThreshold
+     */
+    public function testGetDefaultThreshold()
+    {
+        $gdt = self::getMethod('getDefaultThreshold')->invokeArgs(
+            $this->instance,
+            []
+        );
+        $this->assertTrue(\is_float($gdt));
+        $this->assertNotEmpty($gdt);
+    }
 }

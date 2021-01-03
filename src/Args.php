@@ -120,7 +120,9 @@ class Args implements IArgs
      */
     protected function floatOption(string $key): float
     {
-        return (float) $this->_options[$key];
+        return ($this->hasOption($key))
+            ? (float) $this->_options[$key]
+            : 0;
     }
 
     /**
