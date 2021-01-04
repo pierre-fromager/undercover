@@ -7,12 +7,25 @@
 [![Total Downloads](https://poser.pugx.org/pier-infor/undercover/downloads)](https://packagist.org/packages/pier-infor/undercover)
 [![Latest Unstable Version](https://poser.pugx.org/pier-infor/undercover/v/unstable)](https://packagist.org/packages/pier-infor/undercover)
 
-Undercover is a php clover coverage checker
+Undercover is a php coverage checker.
+It runs against phpunit clover file format.
 
 ## Setup
 
 ```bash
 composer require pier-infor/undercover
+```
+
+## Phpunit Setup
+
+in *phpunit.xml* file add a log tag entry in logging element as sample below.  
+
+```xml
+    <logging>
+        <!--...-->
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
+        <!--...-->
+    </logging>
 ```
 
 ## Integration
