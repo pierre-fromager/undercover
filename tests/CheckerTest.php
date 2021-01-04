@@ -76,7 +76,7 @@ class CheckerTest extends PFT
     public function testRun()
     {
         $stub = $this->getMockWithContent();
-        $this->assertTrue($stub->run() instanceof Checker);
+        $this->assertTrue(is_int($stub->run()));
     }
 
     /**
@@ -317,18 +317,5 @@ class CheckerTest extends PFT
             []
         );
         $this->assertTrue(is_bool($ib));
-    }
-
-    /**
-     * testShutdown
-     * @covers PierInfor\Undercover\Checker::shutdown
-     */
-    public function testShutdown()
-    {
-        $shu = self::getMethod('shutdown')->invokeArgs(
-            $this->instance,
-            []
-        );
-        $this->assertTrue($shu instanceof Checker);
     }
 }

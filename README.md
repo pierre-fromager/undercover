@@ -22,7 +22,7 @@ composer require pier-infor/undercover
 
 use PierInfor\Undercover\Checker
 
-(new Checker)->run();
+exit((new Checker)->run());
 ```
 
 ## Arguments

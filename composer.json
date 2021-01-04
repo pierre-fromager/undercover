@@ -49,8 +49,15 @@
         "preferred-install": "dist",
         "disable-tls": false,
         "secure-http": true,
-        "process-timeout": 0
-    },
+        "process-timeout": 0,
+        "platform": {
+            "php": "7.3.10"
+        },
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },"bin": [
+        "bin/undercover"
+    ],
     "scripts": {
         "up": [
             "php /usr/bin/composer update --with-all-dependencies"

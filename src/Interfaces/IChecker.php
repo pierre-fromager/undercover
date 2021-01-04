@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace PierInfor\Undercover\Interfaces;
 
-use PierInfor\Undercover\Checker;
-
 /**
  * IChecker is interface for Checker class
  *
@@ -29,5 +27,5 @@ interface IChecker
     const COVERED_STATEMENTS = 'coveredstatements';
     const MSG_FORMAT = "|  %-12s \e[94m%02.2f%%\e[0m %s \e[93m%02.2f%%\e[0m %s  |";
 
-    public function run(): Checker;
+    public function run(): int;
 }

@@ -36,14 +36,16 @@ class Checker implements IChecker
     /**
      * runner
      *
-     * @return Checker
+     * @return int
      */
-    public function run(): Checker
+    public function run(): int
     {
         if (!empty($this->getContent())) {
-            $this->parse()->check()->shutdown();
+            $this->parse()->check();
         }
-        return $this;
+        return ($this->error && $this->isBlocking()) 
+            ? 1 
+            : 0;
     }
 
     /**
@@ -122,19 +124,6 @@ class Checker implements IChecker
         }
         echo PHP_EOL . self::T_BEFORE;
         $this->error = ($errCount > 0);
-        return $this;
-    }
-
-    /**
-     * exit with non zero exit code if error and blocking mode
-     *
-     * @return void
-     */
-    protected function shutdown(): Checker
-    {
-        if ($this->error && $this->isBlocking()) {
-            exit(1);
-        }
         return $this;
     }
 
