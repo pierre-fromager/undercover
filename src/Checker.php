@@ -43,8 +43,8 @@ class Checker implements IChecker
         if (!empty($this->getContent())) {
             $this->parse()->check();
         }
-        return ($this->error && $this->isBlocking()) 
-            ? 1 
+        return ($this->error && $this->isBlocking())
+            ? 1
             : 0;
     }
 
@@ -176,7 +176,10 @@ class Checker implements IChecker
     protected function getElementsRatio(\SimpleXMLElement $mets): float
     {
         return isset($mets[self::_ELEMENTS])
-            ? $mets[self::COVERED_ELEMENTS] / $mets[self::_ELEMENTS] * 100
+            ? $this->getRatio(
+                (float) $mets[self::COVERED_ELEMENTS],
+                (float) $mets[self::_ELEMENTS]
+            )
             : 0;
     }
 
@@ -189,7 +192,10 @@ class Checker implements IChecker
     protected function getMethodsRatio(\SimpleXMLElement $mets): float
     {
         return isset($mets[Args::_METHODS])
-            ? $mets[self::COVERED_METHODS] / $mets[Args::_METHODS] * 100
+            ? $this->getRatio(
+                (float) $mets[self::COVERED_METHODS],
+                (float) $mets[Args::_METHODS]
+            )
             : 0;
     }
 
@@ -235,6 +241,9 @@ class Checker implements IChecker
      */
     protected function getRatio(float $min, float $max): float
     {
+        if ($max === 0) {
+            $max = 0.0000001;
+        }
         return ($min / $max) * 100;
     }
 
