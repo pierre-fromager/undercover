@@ -10,7 +10,7 @@
     colors="true" 
     verbose="true" 
     beStrictAboutCoversAnnotation="false" 
-    beStrictAboutOutputDuringTests="true" 
+    beStrictAboutOutputDuringTests="false" 
     beStrictAboutTestsThatDoNotTestAnything="true" 
     beStrictAboutTodoAnnotatedTests="true" 
     beStrictAboutChangesToGlobalState="true"

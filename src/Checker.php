@@ -120,7 +120,7 @@ class Checker implements IChecker
             }
             echo PHP_EOL . $this->getMsgLine($k, $v, $valid);
         }
-        echo PHP_EOL . self::STARS;
+        echo PHP_EOL . self::T_BEFORE;
         $this->error = ($errCount > 0);
         return $this;
     }
