@@ -21,7 +21,7 @@
         <ini name="error_reporting" value="-1"/>
         <server name="APP_ENV" value="test" force="true"/>
         <server name="SHELL_VERBOSITY" value="-1"/>
-        <ini name="memory_limit" value="8M" />
+        <ini name="memory_limit" value="16M" />
     </php>
     <testsuites>
         <testsuite name="all">
