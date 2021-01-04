@@ -71,6 +71,22 @@ class Args implements IArgs
     }
 
     /**
+     * return true if blocking option was set
+     *
+     * @return bool
+     */
+    public function isBlocking(): bool
+    {
+        if ($this->hasOption(self::_B)) {
+            return $this->_options[self::_B];
+        }
+        if ($this->hasOption(self::_BLOCKING)) {
+            return $this->_options[self::_BLOCKING];
+        }
+        return false;
+    }
+
+    /**
      * set options
      *
      * @param array $opts
@@ -85,6 +101,7 @@ class Args implements IArgs
                 self::_METHODS . self::_DESC,
                 self::_STATEMENTS . self::_DESC,
                 self::_CLASSES . self::_DESC,
+                self::_BLOCKING . self::_DESC . self::_DESC,
             ])
             : $opts;
         return $this;

@@ -25,8 +25,10 @@ interface IArgs
     const _STATEMENTS = 'statements';
     const _C = 'c';
     const _CLASSES = 'classes';
+    const _B = 'b';
+    const _BLOCKING = 'blocking';
     const _DESC = ':';
-    const SOPTS = 'f:l:m:s:c:';
+    const SOPTS = 'f:l:m:s:c:b::';
     const DEFAULT_THRESHOLD = 50;
 
     public function getFilename(): string;

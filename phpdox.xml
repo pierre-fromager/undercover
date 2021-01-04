@@ -5,7 +5,8 @@
 
         <collector publiconly="false" backend="parser" encoding="auto">
             <include mask="*.php" />
-            <inheritance resolve="false" />
+            <exclude mask="**vendor**" />
+            <inheritance resolve="true" />
         </collector>
 
         <generator output="${basedir}/doc">
@@ -17,6 +18,7 @@
                 <source type="phpunit">
                     <coverage path="logs/coverage/xml" />
                     <!--<filter directory="${basedir}/tests" />-->
+                    <filter directory="${phpDox.project.source}" />
                 </source>
                 <source type="git">
                     <git binary="/usr/bin/git" />

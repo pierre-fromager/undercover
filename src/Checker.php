@@ -126,13 +126,13 @@ class Checker implements IChecker
     }
 
     /**
-     * exit with non zero exit code if error
+     * exit with non zero exit code if error and blocking mode
      *
      * @return void
      */
     protected function shutdown(): Checker
     {
-        if ($this->error) {
+        if ($this->error && $this->isBlocking()) {
             exit(1);
         }
         return $this;
@@ -270,5 +270,15 @@ class Checker implements IChecker
     protected function exists(): bool
     {
         return file_exists($this->filename);
+    }
+
+    /**
+     * return true if blocking option was set
+     *
+     * @return boolean
+     */
+    protected function isBlocking(): bool
+    {
+        return $this->cloverArgs->isBlocking();
     }
 }

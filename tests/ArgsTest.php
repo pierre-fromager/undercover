@@ -89,7 +89,7 @@ class ArgsTest extends PFT
             Args::_STATEMENTS => 30,
             Args::_S => 30,
             Args::_CLASSES => 40,
-            Args::_C => 40
+            Args::_C => 40,
         ];
     }
 
@@ -153,6 +153,44 @@ class ArgsTest extends PFT
         );
         $this->assertTrue(is_array($gt));
         $this->assertNotEmpty($gt);
+    }
+
+    /**
+     * testIsBlocking
+     * @covers PierInfor\Undercover\Args::isBlocking
+     */
+    public function testIsBlocking()
+    {
+        $ib = self::getMethod('isBlocking')->invokeArgs(
+            $this->instance,
+            []
+        );
+        $this->assertTrue(\is_bool($ib));
+        $this->assertFalse($ib);
+        $mockedOptions = $this->getMockedOptions();
+        $mockedOptions[Args::_B] = true;
+        self::getMethod('setOptions')->invokeArgs(
+            $this->instance,
+            [$mockedOptions]
+        );
+        $ib0 = self::getMethod('isBlocking')->invokeArgs(
+            $this->instance,
+            []
+        );
+        $this->assertTrue(\is_bool($ib0));
+        $this->assertTrue($ib0);
+        unset($mockedOptions[Args::_B]);
+        $mockedOptions[Args::_BLOCKING] = true;
+        self::getMethod('setOptions')->invokeArgs(
+            $this->instance,
+            [$mockedOptions]
+        );
+        $ib1 = self::getMethod('isBlocking')->invokeArgs(
+            $this->instance,
+            []
+        );
+        $this->assertTrue(\is_bool($ib1));
+        $this->assertTrue($ib1);
     }
 
     /**

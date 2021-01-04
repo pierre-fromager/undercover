@@ -307,6 +307,19 @@ class CheckerTest extends PFT
     }
 
     /**
+     * testIsBlocking
+     * @covers PierInfor\Undercover\Checker::isBlocking
+     */
+    public function testIsBlocking()
+    {
+        $ib = self::getMethod('isBlocking')->invokeArgs(
+            $this->instance,
+            []
+        );
+        $this->assertTrue(is_bool($ib));
+    }
+
+    /**
      * testShutdown
      * @covers PierInfor\Undercover\Checker::shutdown
      */

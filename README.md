@@ -37,9 +37,7 @@ use PierInfor\Undercover\Checker
   * threshold for covered statements. 
 * -c &nbsp;,&nbsp; --classes
   * threshold for covered classes. 
+* -b &nbsp;,&nbsp; --blocking
+  * flag to set exit code to 1 when error happened.
 
 *(threshold as percent value)*
-
-## Todo
-
-* Add non blocking mode arg to exit 0.
