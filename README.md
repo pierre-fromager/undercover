@@ -46,7 +46,6 @@ in *composer.json* file add a script entry as sample below.
 ]
 ```
 
-
 ## Arguments
 
 * -f &nbsp;,&nbsp; --file
@@ -64,4 +63,6 @@ in *composer.json* file add a script entry as sample below.
 
 *(threshold as percent value)*
 
+## Tests
 
+tested with php from v7.3 up to v8.0.
