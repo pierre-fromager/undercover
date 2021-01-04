@@ -26,6 +26,7 @@ matrix:
 
 install:
   - travis_retry composer install --no-interaction
+  - travis_retry composer update --no-interaction
 
 script:
   - phpdbg -qrr vendor/bin/phpunit
