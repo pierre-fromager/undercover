@@ -11,19 +11,28 @@ Undercover is a php clover coverage checker
 
 ## Setup
 
-``` bash
+```bash
 composer require pier-infor/undercover
 ```
 
 ## Integration
 
-``` php
+```php
 <?php
 
-use PierInfor\Undercover\Checker;
-
-exit((new Checker)->run());
+exit((new PierInfor\Undercover\Checker)->run());
 ```
+
+## Composer Integration
+
+in *composer.json* file add a script entry as sample below.  
+
+```json
+"undercover": [
+    "undercover -f build/logs/clover.xml -l85 -m86 -s84 -c78 -b"
+]
+```
+
 
 ## Arguments
 
@@ -41,3 +50,5 @@ exit((new Checker)->run());
   * flag to set exit code to 1 when error happened.
 
 *(threshold as percent value)*
+
+
