@@ -278,6 +278,12 @@ class CheckerTest extends PFT
         );
         $this->assertTrue(is_float($gt0));
         $this->assertEquals(100, $gt0);
+        $gt1 = self::getMethod('getRatio')->invokeArgs(
+            $this->instance,
+            [1, 0]
+        );
+        $this->assertTrue(is_float($gt1));
+        $this->assertEquals(0, $gt1);
     }
 
     /**
