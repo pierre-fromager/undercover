@@ -241,7 +241,7 @@ class Checker implements IChecker
      */
     protected function getRatio(float $min, float $max): float
     {
-        if ($max === 0) {
+        if ($max == 0) {
             $max = 0.0000001;
         }
         return ($min / $max) * 100;
