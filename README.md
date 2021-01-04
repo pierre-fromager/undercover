@@ -20,7 +20,7 @@ composer require pier-infor/undercover
 ``` php
 <?php
 
-use PierInfor\Undercover\Checker
+use PierInfor\Undercover\Checker;
 
 exit((new Checker)->run());
 ```
