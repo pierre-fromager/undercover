@@ -24,7 +24,7 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": ">=7.3.10"        
+        "php": ">=7.3.10"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.0",
@@ -55,7 +55,8 @@
         },
         "optimize-autoloader": true,
         "sort-packages": true
-    },"bin": [
+    },
+    "bin": [
         "bin/undercover"
     ],
     "scripts": {
@@ -72,7 +73,7 @@
             "phpmd ./src text codesize,unusedcode,naming"
         ],
         "test": [
-            "/opt/php-7.3.10/bin/phpdbg -qrr ./vendor/bin/phpunit"
+            "phpdbg -qrr ./vendor/bin/phpunit"
         ],
         "doc": [
             "php ./vendor/bin/phpdox"

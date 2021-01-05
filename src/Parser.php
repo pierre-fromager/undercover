@@ -70,16 +70,14 @@ class Parser implements IParser
     public function parse(): IParser
     {
         if (!empty($this->getContent())) {
-            $xml = new \SimpleXMLElement(
-                $this->getContent()
-            );
+            $xml = new \SimpleXMLElement($this->getContent());
             $metrics = $xml->project->metrics;
             $classes = $xml->xpath(self::XPATH_SEARCH);
             $coveredClasses = 0;
             foreach ($classes as $class) {
                 $methods = (int) $class->metrics[Args::_METHODS];
-                $areMethodsCovered = ($methods > 0
-                    && $methods === (int) $class->metrics[IProcessor::COVERED_METHODS]);
+                $coveredMethods = (int) $class->metrics[IProcessor::COVERED_METHODS];
+                $areMethodsCovered = ($methods > 0 && $methods === $coveredMethods);
                 if ($areMethodsCovered) {
                     $coveredClasses++;
                 }
@@ -137,9 +135,7 @@ class Parser implements IParser
     protected function setContent(): IParser
     {
         $this->content = ($this->exists())
-            ? file_get_contents(
-                $this->args->getFilename()
-            )
+            ? file_get_contents($this->getFilename())
             : '';
         return $this;
     }
@@ -151,8 +147,16 @@ class Parser implements IParser
      */
     protected function exists(): bool
     {
-        return file_exists(
-            $this->args->getFilename()
-        );
+        return file_exists($this->getFilename());
+    }
+
+    /**
+     * return filename from args
+     *
+     * @return string
+     */
+    protected function getFilename(): string
+    {
+        return $this->args->getFilename();
     }
 }

@@ -8,7 +8,7 @@ use PierInfor\Undercover\Interfaces\IProcessor;
 use PierInfor\Undercover\Interfaces\IArgs;
 
 /**
- * Processor is a clover coverage processor
+ * Processor is a coverage processor
  *
  * @author Pierre Fromager <info@pier_infor.fr>
  * @version 1.0

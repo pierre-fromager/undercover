@@ -6,6 +6,7 @@ namespace PierInfor\Undercover;
 
 use PierInfor\Undercover\Interfaces\IChecker;
 use PierInfor\Undercover\Parser;
+use PierInfor\Undercover\Reporter;
 
 /**
  * Checker is a clover coverage checker
@@ -18,26 +19,16 @@ class Checker implements IChecker
 {
 
     protected $parser;
-    protected $filename;
     protected $thresholds;
-    protected $results;
     protected $error;
+    protected $reporter;
 
     /**
      * constructor
      */
     public function __construct()
     {
-        $this->parser = new Parser();
         $this->init();
-    }
-
-    /**
-     * destructor
-     */
-    public function __destruct()
-    {
-        $this->parser = null;
     }
 
     /**
@@ -48,7 +39,7 @@ class Checker implements IChecker
     public function run(): int
     {
         $this->check();
-        return ($this->error && $this->isBlocking())
+        return ($this->getError() && $this->isBlocking())
             ? 1
             : 0;
     }
@@ -60,8 +51,9 @@ class Checker implements IChecker
      */
     protected function init(): IChecker
     {
+        $this->parser = new Parser();
+        $this->reporter = new Reporter();
         $this->thresholds = $this->parser->getArgs()->getThresholds();
-        $this->results = [];
         $this->error = false;
         return $this;
     }
@@ -74,38 +66,17 @@ class Checker implements IChecker
     protected function check(): IChecker
     {
         if (!empty($results = $this->getResults())) {
-            echo self::TITLE;
             $errCount = 0;
             foreach ($results as $k => $v) {
                 $valid = $v >= $this->thresholds[$k];
                 if (!$valid) {
                     ++$errCount;
                 }
-                echo PHP_EOL . $this->getMsgLine($k, $v, $valid);
             }
-            echo PHP_EOL . self::T_BEFORE;
             $this->error = ($errCount > 0);
+            $this->reporter->report($results, $this->thresholds);
         }
         return $this;
-    }
-
-    /**
-     * return formated msg line
-     *
-     * @param string $k
-     * @param float $v
-     * @return string
-     */
-    protected function getMsgLine(string $k, float $v, bool $valid): string
-    {
-        return sprintf(
-            self::MSG_FORMAT,
-            ucfirst($k),
-            $v,
-            'limit',
-            $this->thresholds[$k],
-            $valid ? self::_OK : self::_KO
-        );
     }
 
     /**
@@ -126,5 +97,15 @@ class Checker implements IChecker
     protected function isBlocking(): bool
     {
         return $this->parser->getArgs()->isBlocking();
+    }
+
+    /**
+     * return true if error happens
+     *
+     * @return array
+     */
+    protected function getError(): bool
+    {
+        return $this->error;
     }
 }

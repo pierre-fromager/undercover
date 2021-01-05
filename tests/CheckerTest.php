@@ -4,7 +4,6 @@ namespace Tests;
 
 use PHPUnit\Framework\TestCase as PFT;
 use PierInfor\Undercover\Checker;
-use PierInfor\Undercover\Args;
 use PierInfor\Undercover\Interfaces\IArgs;
 use PierInfor\Undercover\Interfaces\IChecker;
 
@@ -75,7 +74,13 @@ class CheckerTest extends PFT
      */
     public function testRun()
     {
-        $this->assertTrue(is_int($this->instance->run()));
+        $exitCode0 = $this->instance->run();
+        $this->assertTrue(is_int($exitCode0));
+        $this->assertEquals(0, $exitCode0);
+        $stub = $this->getMockWithBlockingError();
+        $exitCode1 = $stub->run();
+        $this->assertTrue(is_int($exitCode1));
+        $this->assertEquals(1, $exitCode1);
     }
 
     /**
@@ -89,20 +94,6 @@ class CheckerTest extends PFT
             []
         );
         $this->assertTrue($in0 instanceof Checker);
-    }
-
-    /**
-     * testGetMsgLine
-     * @covers PierInfor\Undercover\Checker::getMsgLine
-     */
-    public function testGetMsgLine()
-    {
-        $gml = self::getMethod('getMsgLine')->invokeArgs(
-            $this->instance,
-            [Args::_LINES, (float) 10, true]
-        );
-        $this->assertTrue(is_string($gml));
-        $this->assertNotEmpty($gml);
     }
 
     /**
@@ -151,7 +142,20 @@ class CheckerTest extends PFT
     }
 
     /**
-     * return a Check mock with fake getResults
+     * testGetError
+     * @covers PierInfor\Undercover\Checker::getError
+     */
+    public function testGetError()
+    {
+        $ger = self::getMethod('getError')->invokeArgs(
+            $this->instance,
+            []
+        );
+        $this->assertTrue(is_bool($ger));
+    }
+
+    /**
+     * return mock with fake getResults
      *
      * @return mixed
      */
@@ -165,6 +169,23 @@ class CheckerTest extends PFT
         $stub->method('getResults')->willReturn(
             $this->getFakeResults()
         );
+        return $stub;
+    }
+
+    /**
+     * return mock with blocking mode and error
+     *
+     * @return mixed
+     */
+    protected function getMockWithBlockingError()
+    {
+        $stub = $this->getMockBuilder(Checker::class)
+            ->disableArgumentCloning()
+            ->disallowMockingUnknownTypes()
+            ->setMethods(['getError', 'isBlocking'])
+            ->getMock();
+        $stub->method('getError')->willReturn(true);
+        $stub->method('isBlocking')->willReturn(true);
         return $stub;
     }
 

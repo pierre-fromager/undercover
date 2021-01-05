@@ -177,7 +177,17 @@ class ParserTest extends PFT
             $this->instance,
             []
         );
-        $this->assertTrue($ex0 instanceof Parser);
+        $this->assertTrue($ex0 instanceof IParser);
+        $stub = $this->getMockBuilder(Parser::class)
+            ->disableArgumentCloning()
+            ->disallowMockingUnknownTypes()
+            ->setMethods(['getFilename'])
+            ->getMock();
+        $stub->method('getFilename')->willReturn(
+            self::FIXTURE_PATH
+        );
+        $ex1 = self::getMethod('setContent')->invokeArgs($stub, []);
+        $this->assertTrue($ex1 instanceof IParser);
     }
 
     /**
@@ -191,5 +201,18 @@ class ParserTest extends PFT
             []
         );
         $this->assertTrue(is_bool($ex0));
+    }
+
+    /**
+     * testGetFilename
+     * @covers PierInfor\Undercover\Parser::getFilename
+     */
+    public function testGetFilename()
+    {
+        $gfn = self::getMethod('getFilename')->invokeArgs(
+            $this->instance,
+            []
+        );
+        $this->assertTrue(is_string($gfn));
     }
 }
