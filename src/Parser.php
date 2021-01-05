@@ -59,8 +59,6 @@ class Parser implements IParser
     protected function init(): IParser
     {
         $this->setContent();
-        $this->results = [];
-        $this->error = false;
         return $this;
     }
 
