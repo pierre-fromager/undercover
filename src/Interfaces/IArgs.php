@@ -33,4 +33,5 @@ interface IArgs
 
     public function getFilename(): string;
     public function getThresholds(): array;
+    public function isBlocking(): bool;
 }
