@@ -5,6 +5,8 @@ namespace Tests;
 use PHPUnit\Framework\TestCase as PFT;
 use PierInfor\Undercover\Checker;
 use PierInfor\Undercover\Args;
+use PierInfor\Undercover\Interfaces\IArgs;
+use PierInfor\Undercover\Interfaces\IChecker;
 
 /**
  * @covers \PierInfor\Undercover\Checker::<public>
@@ -70,13 +72,10 @@ class CheckerTest extends PFT
     /**
      * testRun
      * @covers PierInfor\Undercover\Checker::run
-     * @covers PierInfor\Undercover\Checker::check
-     * @covers PierInfor\Undercover\Checker::setResults
      */
     public function testRun()
     {
-        $stub = $this->getMockWithContent();
-        $this->assertTrue(is_int($stub->run()));
+        $this->assertTrue(is_int($this->instance->run()));
     }
 
     /**
@@ -90,95 +89,6 @@ class CheckerTest extends PFT
             []
         );
         $this->assertTrue($in0 instanceof Checker);
-    }
-
-    /**
-     * return a real coverage clover file content
-     *
-     * @return string
-     */
-    protected function getXmlFixturesContent(): string
-    {
-        return \file_get_contents(
-            __DIR__ . '/fixtures/coverage.clover'
-        );
-    }
-
-    /**
-     * return a Check mock with getContent overided
-     *
-     * @return mixed
-     */
-    protected function getMockWithContent()
-    {
-        $stub = $this->getMockBuilder(Checker::class)
-            ->disableArgumentCloning()
-            ->disallowMockingUnknownTypes()
-            ->setMethods(['getContent'])
-            ->getMock();
-        $stub->method('getContent')->willReturn(
-            $this->getXmlFixturesContent()
-        );
-        return $stub;
-    }
-
-    /**
-     * testParse
-     * @covers PierInfor\Undercover\Checker::parse
-     * @covers PierInfor\Undercover\Checker::getResults
-     */
-    public function testParse()
-    {
-        $stub = $this->getMockWithContent();
-        $par = self::getMethod('parse')->invokeArgs(
-            $stub,
-            []
-        );
-        $this->assertTrue($par instanceof Checker);
-        $ger = self::getMethod('getResults')->invokeArgs(
-            $stub,
-            []
-        );
-        $this->assertTrue(is_array($ger));
-        $this->assertTrue(isset($ger[Args::_LINES]));
-        $this->assertGreaterThan(50, $ger[Args::_LINES]);
-        $this->assertTrue(isset($ger[Args::_METHODS]));
-        $this->assertGreaterThan(50, $ger[Args::_METHODS]);
-        $this->assertTrue(isset($ger[Args::_STATEMENTS]));
-        $this->assertGreaterThan(50, $ger[Args::_STATEMENTS]);
-        $this->assertTrue(isset($ger[Args::_CLASSES]));
-        $this->assertGreaterThan(40, $ger[Args::_CLASSES]);
-    }
-
-    /**
-     * testGetContent
-     * @covers PierInfor\Undercover\Checker::getContent
-     */
-    public function testGetContent()
-    {
-        $gc = self::getMethod('getContent')->invokeArgs(
-            $this->instance,
-            []
-        );
-        $this->assertTrue(is_string($gc));
-        $this->assertEmpty($gc);
-    }
-
-    /**
-     * returns  an xml element
-     * with attributes populated
-     * from the given array
-     *
-     * @param array $attributes
-     * @return \SimpleXMLElement
-     */
-    protected function getXmlElementWithAttributes(array $attributes): \SimpleXMLElement
-    {
-        $xml = new \SimpleXMLElement('<metrics/>');
-        foreach ($attributes as $name => $value) {
-            $xml->addAttribute($name, $value);
-        }
-        return $xml;
     }
 
     /**
@@ -196,120 +106,35 @@ class CheckerTest extends PFT
     }
 
     /**
-     * testGetElementsRatio
-     * @covers PierInfor\Undercover\Checker::getElementsRatio
+     * testCheck
+     * @covers PierInfor\Undercover\Checker::check
      */
-    public function testGetElementsRatio()
+    public function testCheck()
     {
-        $xmlElements = $this->getXmlElementWithAttributes([
-            Checker::COVERED_ELEMENTS => (float) 50,
-            Checker::_ELEMENTS => (float) 50,
-        ]);
-        $ger = self::getMethod('getElementsRatio')->invokeArgs(
-            $this->instance,
-            [$xmlElements]
-        );
-        $this->assertTrue(is_float($ger));
-        $this->assertEquals(100, $ger);
-    }
-
-    /**
-     * testGetMethodsRatio
-     * @covers PierInfor\Undercover\Checker::getMethodsRatio
-     */
-    public function testGetMethodsRatio()
-    {
-        $xmlElements = $this->getXmlElementWithAttributes([
-            Args::_METHODS => (float) 50,
-            Checker::COVERED_METHODS => (float) 50,
-        ]);
-        $gmr = self::getMethod('getMethodsRatio')->invokeArgs(
-            $this->instance,
-            [$xmlElements]
-        );
-        $this->assertTrue(is_float($gmr));
-        $this->assertEquals(100, $gmr);
-    }
-
-    /**
-     * testGetStatementsRatio
-     * @covers PierInfor\Undercover\Checker::getStatementsRatio
-     */
-    public function testGetStatementsRatio()
-    {
-        $xmlElements = $this->getXmlElementWithAttributes([
-            Args::_STATEMENTS => (float) 50,
-            Checker::COVERED_STATEMENTS => (float) 50,
-        ]);
-        $gsr = self::getMethod('getStatementsRatio')->invokeArgs(
-            $this->instance,
-            [$xmlElements]
-        );
-        $this->assertTrue(is_float($gsr));
-        $this->assertEquals(100, $gsr);
-    }
-
-    /**
-     * testGetClassesRatio
-     * @covers PierInfor\Undercover\Checker::getClassesRatio
-     */
-    public function testGetClassesRatio()
-    {
-        $xmlElements = $this->getXmlElementWithAttributes([
-            Args::_CLASSES => (float) 50,
-        ]);
-        $gcr = self::getMethod('getClassesRatio')->invokeArgs(
-            $this->instance,
-            [(float) 50, $xmlElements]
-        );
-        $this->assertTrue(is_float($gcr));
-        $this->assertEquals(100, $gcr);
-    }
-
-    /**
-     * testGetRatio
-     * @covers PierInfor\Undercover\Checker::getRatio
-     */
-    public function testGetRatio()
-    {
-        $gt0 = self::getMethod('getRatio')->invokeArgs(
-            $this->instance,
-            [1, 1]
-        );
-        $this->assertTrue(is_float($gt0));
-        $this->assertEquals(100, $gt0);
-        $gt1 = self::getMethod('getRatio')->invokeArgs(
-            $this->instance,
-            [1, 0]
-        );
-        $this->assertTrue(is_float($gt1));
-        $this->assertEquals(0, $gt1);
-    }
-
-    /**
-     * testSetContent
-     * @covers PierInfor\Undercover\Checker::setContent
-     */
-    public function testSetContent()
-    {
-        $ex0 = self::getMethod('setContent')->invokeArgs(
+        $chk0 = self::getMethod('check')->invokeArgs(
             $this->instance,
             []
         );
-        $this->assertTrue($ex0 instanceof Checker);
+        $this->assertTrue($chk0 instanceof IChecker);
+        $stub = $this->getMockWithResults();
+        $chk1 = self::getMethod('check')->invokeArgs(
+            $stub,
+            []
+        );
+        $this->assertTrue($chk1 instanceof IChecker);
     }
 
     /**
-     * testExists
-     * @covers PierInfor\Undercover\Checker::exists
+     * testGetResults
+     * @covers PierInfor\Undercover\Checker::getResults
      */
-    public function testExists()
+    public function testGetResults()
     {
-        $ex0 = self::getMethod('exists')->invokeArgs(
+        $gr0 = self::getMethod('getResults')->invokeArgs(
             $this->instance,
             []
         );
-        $this->assertTrue(is_bool($ex0));
+        $this->assertTrue(is_array($gr0));
     }
 
     /**
@@ -318,10 +143,43 @@ class CheckerTest extends PFT
      */
     public function testIsBlocking()
     {
-        $ib = self::getMethod('isBlocking')->invokeArgs(
+        $gr = self::getMethod('isBlocking')->invokeArgs(
             $this->instance,
             []
         );
-        $this->assertTrue(is_bool($ib));
+        $this->assertTrue(is_bool($gr));
+    }
+
+    /**
+     * return a Check mock with fake getResults
+     *
+     * @return mixed
+     */
+    protected function getMockWithResults()
+    {
+        $stub = $this->getMockBuilder(Checker::class)
+            ->disableArgumentCloning()
+            ->disallowMockingUnknownTypes()
+            ->setMethods(['getResults'])
+            ->getMock();
+        $stub->method('getResults')->willReturn(
+            $this->getFakeResults()
+        );
+        return $stub;
+    }
+
+    /**
+     * return fake results
+     *
+     * @return array
+     */
+    protected function getFakeResults(): array
+    {
+        return [
+            IArgs::_LINES => 50,
+            IArgs::_METHODS => 50,
+            IArgs::_STATEMENTS => 50,
+            IArgs::_CLASSES => 10
+        ];
     }
 }

@@ -72,7 +72,7 @@
             "phpmd ./src text codesize,unusedcode,naming"
         ],
         "test": [
-            "phpdbg -qrr ./vendor/bin/phpunit"
+            "/opt/php-7.3.10/bin/phpdbg -qrr ./vendor/bin/phpunit"
         ],
         "doc": [
             "php ./vendor/bin/phpdox"

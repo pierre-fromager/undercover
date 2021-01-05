@@ -2,6 +2,7 @@
 /coverage/
 /doc/
 /build/
+src/index.php
 .phpunit.result.cache
 .php_cs.cache
 .vscode
