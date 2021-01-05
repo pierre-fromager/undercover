@@ -192,6 +192,34 @@ class ReporterTest extends PFT
     }
 
     /**
+     * testGetThreshold
+     * @covers PierInfor\Undercover\Reporter::getThreshold
+     */
+    public function testGetThreshold()
+    {
+        $gtr0 = self::getMethod('getThreshold')->invokeArgs(
+            $this->instance,
+            [IArgs::_LINES]
+        );
+        $this->assertTrue(is_float($gtr0));
+        $this->assertEquals(0, $gtr0);
+        $stub = $this->getMockBuilder(Reporter::class)
+            ->disableArgumentCloning()
+            ->disallowMockingUnknownTypes()
+            ->setMethods(['getThresholds'])
+            ->getMock();
+        $stub->method('getThresholds')->willReturn(
+            $this->getFakeResults()
+        );
+        $gtr1 = self::getMethod('getThreshold')->invokeArgs(
+            $stub,
+            [IArgs::_LINES]
+        );
+        $this->assertTrue(is_float($gtr1));
+        $this->assertEquals(50, $gtr1);
+    }
+
+    /**
      * return fake results
      *
      * @return array

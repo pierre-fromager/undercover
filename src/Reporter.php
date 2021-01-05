@@ -69,6 +69,20 @@ class Reporter implements IReporter
     }
 
     /**
+     * return threshold as float for a given a key
+     *
+     * @return float
+     */
+    protected function getThreshold(string $key): float
+    {
+        $tresholds = $this->getThresholds();
+        if (empty($tresholds) || !isset($tresholds[$key])) {
+            return (float) 0;
+        }
+        return $tresholds[$key];
+    }
+
+    /**
      * return report
      *
      * @return string
@@ -102,12 +116,12 @@ class Reporter implements IReporter
     protected function getBody(): string
     {
         $body = '';
-        foreach ($this->getResults() as $k => $v) {
-            $threshold = $this->getThresholds()[$k];
+        foreach ($this->getResults() as $key => $value) {
+            $threshold = $this->getThresholds()[$key];
             $body .= $this->getMsgLine(
-                $k,
-                $v,
-                ($v >= $threshold)
+                $key,
+                $value,
+                ($value >= $threshold)
             );
         }
         return $body;
@@ -128,18 +142,18 @@ class Reporter implements IReporter
     /**
      * return formated msg line
      *
-     * @param string $k
-     * @param float $v
+     * @param string $key
+     * @param float $value
      * @return string
      */
-    protected function getMsgLine(string $k, float $v, bool $valid): string
+    protected function getMsgLine(string $key, float $value, bool $valid): string
     {
         return sprintf(
             IReporter::MSG_FORMAT,
-            ucfirst($k),
-            $v,
+            ucfirst($key),
+            $value,
             IReporter::_LIMIT,
-            $this->thresholds[$k],
+            $this->getThreshold($key),
             $valid ? IReporter::_OK : IReporter::_KO
         );
     }
